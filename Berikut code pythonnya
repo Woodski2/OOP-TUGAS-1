@@ -1,0 +1,44 @@
+# models.py - Representasi Domain
+class BaseTicket:
+    def __init__(self, ticket_id, subject, status="Open"):
+        self.ticket_id = ticket_id
+        self.subject = subject
+        self.status = status
+
+    def get_category(self):
+        return "General"
+
+class TechTicket(BaseTicket):
+    def get_category(self):
+        return "Technical Support"
+
+class BillingTicket(BaseTicket):
+    def get_category(self):
+        return "Billing & Payment"
+
+# workflow.py - Implementasi Factory Pattern
+class TicketFactory:
+    @staticmethod
+    def create_ticket(category, ticket_id, subject):
+        if category == "Technical":
+            return TechTicket(ticket_id, subject)
+        elif category == "Billing":
+            return BillingTicket(ticket_id, subject)
+        else:
+            return BaseTicket(ticket_id, subject)
+
+class WorkflowEngine:
+    def __init__(self):
+        self.factory = TicketFactory()
+
+    def submit_request(self, category, subject):
+        # ID tiket digenerate otomatis
+        t_id = "T-101" 
+        new_ticket = self.factory.create_ticket(category, t_id, subject)
+        print(f"[Workflow] Tiket Berhasil Dibuat: {new_ticket.get_category()} - {new_ticket.subject}")
+        return new_ticket
+
+# app.py - Contoh Eksekusi
+engine = WorkflowEngine()
+ticket = engine.submit_request("Technical", "Masalah Koneksi Server")
+
