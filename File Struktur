@@ -1,0 +1,8 @@
+ticket-app/
+├── app.py
+├── templates/
+│   ├── base.html
+│   ├── client.html
+│   └── admin.html
+└── static/
+    └── style.css
